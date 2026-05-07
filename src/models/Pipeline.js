@@ -3,10 +3,10 @@
  
  */
 const mongoose = require("mongoose")
-
+const updateStats = require("../services/statsService.js")
 const PipelineRunSchema= new mongoose.Schema({
 runId:{type:String ,required:true ,unique:true},
-repo:{type:String ,required:true ,unique:true},
+repo:{type:String ,required:true },
 branch: { type: String, required: true },
   
   // Status & Timing
@@ -23,9 +23,22 @@ branch: { type: String, required: true },
 
 
 })
-PipelineRunSchema.index({repo:1,branch:1,createdAt:-1}) // I want to be able to searchbu the repo and branch 
+PipelineRunSchema.index({repo:1,branch:1,createdAt:-1}) // I want to be able to search bu the repo and branch 
 module.exports = mongoose.model('PipelineRun', PipelineRunSchema);
 //>PiplineRun: table 
 
 
 
+//the hook that trrigers the service to update the stars
+PipelineRunSchema.post('save',async function(doc,next){
+  try{
+    await updateStats(doc)
+    next()
+
+  }catch(error){
+    console.log(error.message)
+    next(error)
+  }
+
+  
+})

@@ -15,7 +15,7 @@ const errorHandler =(err,req,res,next)=>{
                       //if status code use it          if not use 500     
     const statusCode= err.statusCode ? err.statusCode : 500;
     //missing data>>400, db crash >>500
-}
+
 
 
 //json res >>>postman 
@@ -25,4 +25,7 @@ res.status(statusCode).json({
     message:err.message,
     stack:process.env.ENV ==="production"?null:err.stack
 
-});
+})
+};
+
+module.exports=errorHandler;
