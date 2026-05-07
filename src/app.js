@@ -12,6 +12,8 @@ const errorHandler = require('./middlewares/errorMiddleware.js');
 
 const runRoute = require("./routes/runRoute.js")
 const statsRoute = require("./routes/statsRoutes.js")
+const webHookRoute=require('./routes/webhookRoutes.js')
+
 /**const {createRun,geyAllRuns,getRunById}=require("./routes/runRoute.js")
 didn't exported out individual functions; 
 it exporteded out a Router .
@@ -25,5 +27,7 @@ app.use('/api/runs', runRoute);//6
 // CRITICAL: The Error Handler MUST be the last middleware added to app.js
 
 app.use('/api/stats', statsRoute);  
+app.use('/api/webhook', webHookRoute)
+
 app.use(errorHandler);
 module.exports = app;
